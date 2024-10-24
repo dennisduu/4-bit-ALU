@@ -48,7 +48,7 @@ module tt_um_Richard28277 (
     wire [3:0] xor_result = a ^ b;
     wire [3:0] not_result = ~a;
     wire set_less_than_result = (a < b) ? 1:0;
-    wire set_equal_result = (a = b) ? 1:0;
+    wire set_equal_result = (a == b);
     reg [7:0] result;
     reg carry_out;
     reg overflow;
@@ -108,7 +108,7 @@ module tt_um_Richard28277 (
                     result <= (a << 4 | b) ^ ENCRYPTION_KEY;
                 end
                 SLT: begin
-                    result <= {7b'0000000, set_less_than_result};
+                    result <= {7'b0000000, set_less_than_result};
                 end
                 SEQ: begin
                     result <= {7'b0000000, set_equal_result};
