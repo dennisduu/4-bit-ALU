@@ -9,20 +9,30 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-This 4-bit kogge stone adder is to perform fast addition of 4-bit binary numbers. It could reach delay complexity in O(log n) which is faster than the 4bit ripple carry adder O(n). It computes the rounding bits in parallel by generate and propagate signals to reduce the latency of the addition operation. Firstly, the rounding signals for adjacent bits are computed, and then the rounding signals for multiple bits are further combined. Then, the sum of each bit is calculated using the XOR operation. The design completes the addition operation quickly and outputs the sum as well as the final rounding signal.
+An ALU (Arithmetic Logic Unit) is a key component in digital circuits that performs arithmetic and logical operations. In this design, we have an ALU that operates on 4-bit inputs (meaning it processes numbers in the range of 0 to 15). The ALU performs different operations depending on the opcode (a code that tells the ALU which operation to perform).
+
 
 ## How to test
 
-1. Input Configuration: The 4-bit binary numbers to be added are provided via the lower and upper halves of the 8-bit input (ui_in). The lower 4 bits represent one operand (A), and the upper 4 bits represent the other operand (B).
+1. Input Configuration: The 4-bit binary numbers a and b are provided via the upper and lower halves of the 8-bit input (ui_in). The upper 4 bits represent one operand (a), and the lower 4 bits represent the other operand (b).
+The operation to be performed is selected using the 4-bit opcode provided via the uio_in input.
 
 2. Running the Design: To test the adder:
-*Provide the input values via the ui_in port.
-*Ensure the design is powered (ena is active), and the reset signal (rst_n) is inactive.
-*Observe the output sum and carry-out values on uo_out. The lower 4 bits of uo_out will represent the 4-bit sum, and uo_out[4] will represent the carry-out.
+*Set the input values (a and b) by configuring ui_in.
+*Select the operation by setting the uio_in input to the corresponding opcode.
+*Ensure the design is powered by setting ena active and release the reset signal (rst_n set to 1).
+*Observe the result of the operation on the uo_out output. The exact meaning of the result will depend on the operation:
+**For arithmetic operations (ADD, SUB, MUL, DIV), uo_out will show the result of the operation.
+**For logical operations (AND, OR, XOR, NOT), uo_out will contain the logical result.
+**For comparison operations (SLT, SEQ), the least significant bit (LSB) of uo_out will indicate the comparison result (either 0 or 1).
+*Additionally, for operations like ADD and SUB, carry-out and overflow flags can be observed on the upper bits of uio_out.
 
 3. Example Test:
-Input A = 4'b0011 and B = 4'b0101 via ui_in = 8'b01010011.
-The expected output would be the sum 4'b1000 with carry-out 0, so uo_out = 8'b00001000.
+ADD Operation:
+
+Input: a = 4'b0011 (3), b = 4'b0101 (5), opcode = ADD (0b0000).
+Set ui_in: ui_in = 8'b01010011.
+Expected Output: Sum 8 → uo_out = 8'b00001000 (4-bit sum), uio_out[6] = 0 (carry-out).
 
 ## External hardware
 
