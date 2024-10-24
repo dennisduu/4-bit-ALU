@@ -48,7 +48,7 @@ module tt_um_Richard28277 (
     wire [3:0] xor_result = a ^ b;
     wire [3:0] not_result = ~a;
     wire set_less_than_result = (a < b) ? 1:0;
-    wire set_equal_result = (a = B) ? 1:0;
+    wire set_equal_result = (a = b) ? 1:0;
     reg [7:0] result;
     reg carry_out;
     reg overflow;
