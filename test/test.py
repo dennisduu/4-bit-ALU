@@ -84,3 +84,40 @@ async def test_tt_um_Richard28277(dut):
     await Timer(50, units='ns')
     display_result("ENC")
     assert dut.uo_out.value == (0b0010_1100 ^ 0xAB)  # Expect encryption result with key 0xAB
+
+
+    # Test SLT operation
+    dut.ui_in.value = 0b0010_1100  # a = 2, b = 12
+    dut.uio_in.value = 0b1001      # opcode = SLT
+    await Timer(50, units='ns')
+    display_result("SLT")
+    assert dut.uo_out.value == 0b00000001
+
+    # Case where a > b
+    dut.ui_in.value = 0b1010_0011  # a = 10, b = 3
+    dut.uio_in.value = 0b1001      # opcode = SLT
+    await Timer(50, units='ns')
+    display_result("SLT (a > b)")
+    assert dut.uo_out.value == 0b00000000  # Expect 0 (a is greater than b)
+
+    # Case where a == b
+    dut.ui_in.value = 0b0101_0101  # a = 5, b = 5
+    dut.uio_in.value = 0b1001      # opcode = SLT
+    await Timer(50, units='ns')
+    display_result("SLT (a == b)")
+    assert dut.uo_out.value == 0b00000000  # Expect 0 (a is equal to b)
+
+    # Test SEQ operation
+     # Case where a == b
+    dut.ui_in.value = 0b0101_0101  # a = 5, b = 5
+    dut.uio_in.value = 0b1010      # opcode = SEQ
+    await Timer(50, units='ns')
+    display_result("SEQ (a == b)")
+    assert dut.uo_out.value == 0b00000001  # Expect 1 (a is equal to b)
+
+    # Case where a != b
+    dut.ui_in.value = 0b0010_0101  # a = 2, b = 5
+    dut.uio_in.value = 0b1010      # opcode = SEQ
+    await Timer(50, units='ns')
+    display_result("SEQ (a != b)")
+    assert dut.uo_out.value == 0b00000000  # Expect 0 (a is not equal to b)
