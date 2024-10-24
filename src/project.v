@@ -26,6 +26,8 @@ module tt_um_Richard28277 (
     parameter NOT = 4'b0111; // Logical NOT (Unary operation)
     parameter ENC = 4'b1000; // Encryption operation
     parameter SLT = 4'b1001; //set less than
+    parameter SEQ = 4'b1010; //set equal 
+
 
     // Internal signals
     wire [3:0] a = ui_in[7:4];   // Input a 
